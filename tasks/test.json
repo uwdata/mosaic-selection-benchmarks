@@ -1,0 +1,14 @@
+[
+  {
+    "stage": "init",
+    "query": "SELECT MIN(delay) FROM flights10m"
+  },
+  {
+    "stage": "create",
+    "query": "CREATE TABLE IF NOT EXISTS testCube AS SELECT COUNT(*) FROM flights10m"
+  },
+  {
+    "stage": "update",
+    "query": "SELECT * FROM testCube"
+  }
+]

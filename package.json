@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "mosaic-selection-benchmarks",
+  "type": "module",
+  "dependencies": {
+    "@uwdata/flechette": "^1.1.0",
+    "@uwdata/mosaic-core": "^0.11.0",
+    "@uwdata/mosaic-duckdb": "^0.11.0"
+  }
+}
