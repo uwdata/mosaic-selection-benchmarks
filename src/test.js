@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { benchmark } from './benchmark.js';
+import { analyze } from './analyze.js';
 
 export async function runTest(options = { connector: 'wasm', parallel: true }) {
   try {
@@ -16,7 +17,7 @@ export async function runTest(options = { connector: 'wasm', parallel: true }) {
         FROM 'data/flights-10m.parquet'`,
       tasks: JSON.parse(await readFile('tasks/test.json'))
     });
-    console.log(data);
+    console.log(analyze(data).objects());
   } catch (error) {
     console.error(error);
   }

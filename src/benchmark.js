@@ -29,7 +29,9 @@ export async function benchmark({
     const t1 = performance.now();
     data.push({
       ...metadata,
+      taskid: 0,
       stage: 'load',
+      query: sql,
       start: t0,
       end: t1,
       time: t1 - t0

@@ -28,5 +28,15 @@
     "taskid": 4,
     "stage": "update",
     "query": "SELECT MIN(delay) FROM testCube WHERE time < 24"
+  },
+  {
+    "taskid": 5,
+    "stage": "update",
+    "query": "SELECT MAX(delay) FROM testCube WHERE time > 10"
+  },
+  {
+    "taskid": 5,
+    "stage": "update",
+    "query": "SELECT MIN(delay) FROM testCube WHERE time > 10"
   }
 ]
