@@ -12,4 +12,5 @@ See `tasks/test.json` for an example.
 ## Running Instructions
 
 - Run `npm i` to install dependencies.
-- Run `node bin/run-test.js` to run the test example.
+- Run `node bin/run-test.js` to run the test benchmark example.
+- Run `npm run dev` to launch visualization examples.
