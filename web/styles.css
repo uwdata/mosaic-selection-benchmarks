@@ -1,0 +1,85 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif;
+}
+
+h1, h2 { font-size: 16px; }
+
+header {
+  margin-bottom: 0.5em;
+}
+
+label { margin-right: 0.5em; }
+
+.concat-horizontal {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.plot {
+  display: flex;
+}
+
+.input {
+  margin-right: 1em;
+}
+
+.input > * {
+  vertical-align: middle;
+}
+
+table {
+  position: relative;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  box-sizing: border-box;
+  max-width: initial;
+  min-height: 33px;
+  margin: 0;
+  width: 100%;
+
+  font-size: 13px;
+  line-height: 15.6px;
+}
+
+thead tr th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  cursor: ns-resize;
+  border-bottom: solid 1px #ccc;
+}
+
+tbody tr:hover {
+  background: #eef;
+}
+
+th {
+  color: #111;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+td, th {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 3px 6.5px 3px 0;
+}
+
+tbody tr:first-child td {
+  padding-top: 4px;
+}
+
+td, tr:not(:last-child) th {
+  border-bottom: solid 1px #eee;
+}
+
+td {
+  color: #444;
+  vertical-align: top;
+}

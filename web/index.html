@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Benchmarks</title>
+  <link href="./styles.css" rel="stylesheet">
+</head>
+<body>
+  <header style="margin-bottom: 1em;">
+    <span style="margin-right: 0.5em;">
+      Specification:
+      <select id="spec">
+        <option value="none"></option>
+        <option value="flights">Flights</option>
+        <option value="gaia">Gaia</option>
+        <option value="nyc-taxi-trips">NYC Taxi Trips</option>
+      </select>
+    </span>
+
+    <span style="margin-right: 0.5em;">
+      <button id="load" style="margin-right: 0.5em;">Load</button>
+    </span>
+  </header>
+  <div id="view"></div>
+<script type="module">
+  import { coordinator, clear } from './setup.js';
+  coordinator.logger(false);
+
+  async function load(name) {
+    view.replaceChildren();
+    clear();
+    if (name !== 'none') {
+      console.log(`LOADING ${name}.js`);
+      const benchmarks = (await import(`./${name}.js`)).default;
+      benchmarks(view);
+    }
+  }
+
+  const view = document.querySelector('#view');
+  const specMenu = document.querySelector('#spec');
+  const loadButton = document.querySelector('#load');
+  loadButton.addEventListener('click', () => load(specMenu.value, false));
+</script>
+</body>
+</html>
