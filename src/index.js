@@ -1,1 +1,1 @@
-export { run as runTest } from './test.js';
+export { runTest } from './test.js';

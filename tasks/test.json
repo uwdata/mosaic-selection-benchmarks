@@ -5,10 +5,16 @@
   },
   {
     "stage": "create",
-    "query": "CREATE TABLE IF NOT EXISTS testCube AS SELECT COUNT(*) FROM flights10m"
+    "query": "CREATE TABLE IF NOT EXISTS testCube AS SELECT FLOOR(time) AS time, MAX(delay) AS delay FROM flights10m GROUP BY time"
   },
   {
     "stage": "update",
-    "query": "SELECT * FROM testCube"
+    "query": "SELECT MAX(delay) FROM testCube WHERE time < 10",
+    "updateid": 1
+  },
+  {
+    "stage": "update",
+    "query": "SELECT MAX(delay) FROM testCube WHERE time < 24",
+    "updateid": 2
   }
 ]
