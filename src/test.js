@@ -1,11 +1,11 @@
 import { readFile } from 'node:fs/promises';
 import { benchmark } from './benchmark.js';
 
-export async function runTest() {
+export async function runTest(options = { connector: 'wasm', parallel: true }) {
   try {
     const data = await benchmark({
       metadata: { name: 'test' },
-      connector: 'node',
+      ...options,
       verbose: true,
       load: `
         CREATE TEMP TABLE IF NOT EXISTS flights10m AS
