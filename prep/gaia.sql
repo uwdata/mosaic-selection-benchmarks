@@ -23,8 +23,10 @@ WITH prep AS (
 SELECT
   ((1.340264 * lambda * cos(t)) / (sqrt(3)/2 * (1.340264 + (-0.081106 * 3 * t2) + (t6 * (0.000893 * 7 + 0.003796 * 9 * t2)))))::FLOAT AS u,
   (t * (1.340264 + (-0.081106 * t2) + (t6 * (0.000893 + 0.003796 * t2))))::FLOAT AS v,
-  * EXCLUDE('b', 'l', 't', 't2', 't6')
+  parallax,
+  phot_g_mean_mag,
+  bp_rp
 FROM prep;
 
 -- write result to new parquet file
-COPY gp TO 'data/gaiap.parquet' (FORMAT PARQUET);
+COPY gp TO 'data/gaia_projected.parquet' (FORMAT PARQUET);
