@@ -1,12 +1,17 @@
--- load original data
-CREATE VIEW gaia AS SELECT * FROM 'data/gaia.parquet';
+-- download data at http://cdn.gea.esac.esa.int/Gaia/gdr3/gaia_source/
+-- save files under data/gaia
 
--- convert ra, dec to galactic coordinates l, b
+-- load original data
+CREATE VIEW gaia AS
+SELECT ra, dec, parallax, phot_g_mean_mag, bp_rp
+FROM 'data/gaia/*.csv.gz';
+
+-- first convert ra, dec to galactic coordinates l, b
 -- see https://astronomy.stackexchange.com/questions/53397/how-can-i-convert-my-sky-coordinate-system-ra-dec-into-galactic-coordinate-sy
--- apply projection to l, b to make galaxy map
+-- then apply equal earth projection to l, b to make galaxy map
 -- filter to valid values and desired parallax range
 -- project to desired columns only
-CREATE VIEW gp AS
+CREATE VIEW projected AS
 WITH prep AS (
   SELECT
     asin(sin(0.473479) * sin(dec) + cos(0.473479) * cos(dec) * cos(ra - 3.36603)) AS b,
@@ -29,4 +34,4 @@ SELECT
 FROM prep;
 
 -- write result to new parquet file
-COPY gp TO 'data/gaia_projected.parquet' (FORMAT PARQUET);
+COPY projected TO 'data/gaia_projected.parquet' (FORMAT PARQUET);
