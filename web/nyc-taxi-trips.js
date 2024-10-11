@@ -17,8 +17,9 @@ export default async function(el) {
         vg.raster(vg.from('trips', { filterBy: $filter }), {
           x: 'px',
           y: 'py',
+          bandwidth: 0,
           pixelSize: 1,
-          bandwidth: 0
+          imageRendering: 'pixelated'
         }),
         vg.intervalXY({ as: $filter, pixelSize: 2 }),
         vg.text([{ label: 'Taxi Pickups' }], {
@@ -44,8 +45,9 @@ export default async function(el) {
         vg.raster(vg.from('trips', { filterBy: $filter }), {
           x: 'dx',
           y: 'dy',
+          bandwidth: 0,
           pixelSize: 1,
-          bandwidth: 0
+          imageRendering: 'pixelated'
         }),
         vg.intervalXY({ as: $filter, pixelSize: 2 }),
         vg.text([{ label: 'Taxi Dropoffs' }], {

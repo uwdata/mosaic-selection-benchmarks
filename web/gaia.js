@@ -19,7 +19,12 @@ export default async function(el) {
       vg.plot(
         vg.name('sky'),
         vg.raster(vg.from(table, { filterBy: $brush }), {
-          x: 'u', y: 'v', fill: 'density', bandwidth, pixelSize
+          x: 'u',
+          y: 'v',
+          fill: 'density',
+          bandwidth,
+          pixelSize,
+          imageRendering: 'pixelated'
         }),
         vg.intervalXY({ as: $brush, pixelSize }),
         vg.xDomain([-3.63, 3.63]),
@@ -78,7 +83,8 @@ export default async function(el) {
         y: 'phot_g_mean_mag',
         fill: 'density',
         bandwidth,
-        pixelSize
+        pixelSize,
+        imageRendering: 'pixelated'
       }),
       vg.intervalXY({ as: $brush, pixelSize }),
       vg.colorScale('sqrt'),
