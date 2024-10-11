@@ -14,16 +14,21 @@ FROM 'data/gaia/*.csv.gz';
 CREATE VIEW projected AS
 WITH prep AS (
   SELECT
-    asin(sin(0.473479) * sin(dec) + cos(0.473479) * cos(dec) * cos(ra - 3.36603)) AS b,
-    2.14557 - asin(cos(dec) * sin(ra - 3.36603) / cos(b)) AS l,
-    radians((-l + 540) % 360 - 180) AS lambda,
-    radians(b) AS phi,
+    radians(ra) AS a,
+    radians(dec) AS d,
+    asin(sin(0.473479) * sin(d) + cos(0.473479) * cos(d) * cos(a - 3.36603)) AS phi,
+    2.14557 - atan2(cos(d) * sin(a - 3.36603), cos(0.473479) * sin(d) - sin(0.473479) * cos(d) * cos(a - 3.36603)) AS l,
+    radians((-degrees(l) + 540) % 360 - 180) AS lambda,
     asin(sqrt(3)/2 * sin(phi)) AS t,
     t^2 AS t2,
     t2^3 AS t6,
     *
   FROM gaia
-  WHERE parallax BETWEEN -5 AND 20 AND phot_g_mean_mag IS NOT NULL AND bp_rp IS NOT NULL
+  WHERE parallax BETWEEN -5 AND 20
+    AND phot_g_mean_mag IS NOT NULL
+    AND bp_rp IS NOT NULL
+    AND ra IS NOT NULL
+    AND dec IS NOT NULL
 )
 SELECT
   ((1.340264 * lambda * cos(t)) / (sqrt(3)/2 * (1.340264 + (-0.081106 * 3 * t2) + (t6 * (0.000893 * 7 + 0.003796 * 9 * t2)))))::FLOAT AS u,
