@@ -10,7 +10,7 @@ CREATE VIEW flights AS SELECT * FROM 'data/flights/*/*.csv';
 -- filter records with null values for measures of interest
 COPY (SELECT
   Operating_Airline AS airline,
-  FLOOR(DepTime::SMALLINT / 100 + (DepTime::SMALLINT % 100) / 60)::FLOAT AS time,
+  (DepTime::SMALLINT / 100 + (DepTime::SMALLINT % 100) / 60)::FLOAT AS time,
   ArrDelay::SMALLINT AS delay,
   Distance::SMALLINT AS distance
 FROM flights

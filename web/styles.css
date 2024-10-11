@@ -10,6 +10,12 @@ header {
 
 label { margin-right: 0.5em; }
 
+label.value {
+  margin-left: 0.25em;
+  display: inline-block;
+  width: 25px;
+}
+
 .concat-horizontal {
   display: flex;
   flex-direction: row;
