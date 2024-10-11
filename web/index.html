@@ -21,6 +21,11 @@
     <span style="margin-right: 0.5em;">
       <button id="load" style="margin-right: 0.5em;">Load</button>
     </span>
+
+    <span style="margin-right: 0.5em;"></span>
+      Optimize:
+      <input id="opt" type="checkbox" checked />
+    </span>
   </header>
   <div id="view"></div>
 <script type="module">
@@ -39,8 +44,14 @@
 
   const view = document.querySelector('#view');
   const specMenu = document.querySelector('#spec');
+
   const loadButton = document.querySelector('#load');
   loadButton.addEventListener('click', () => load(specMenu.value, false));
+
+  const optToggle = document.querySelector('#opt');
+  optToggle.addEventListener('change', () => {
+    coordinator.dataCubeIndexer.enabled = optToggle.checked;
+  });
 </script>
 </body>
 </html>
