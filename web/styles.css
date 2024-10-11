@@ -8,7 +8,10 @@ header {
   margin-bottom: 0.5em;
 }
 
-label { margin-right: 0.5em; }
+label {
+  margin-right: 0.5em;
+  font-size: 14px;
+}
 
 label.value {
   margin-left: 0.25em;
