@@ -22,7 +22,8 @@ export default async function(el) {
           x: 'u', y: 'v', fill: 'density', bandwidth, pixelSize
         }),
         vg.intervalXY({ as: $brush, pixelSize }),
-        vg.xyDomain(vg.Fixed),
+        vg.xDomain([-3.63, 3.63]),
+        vg.yDomain([-1.318, 1.318]),
         vg.colorScale('sqrt'),
         vg.colorScheme(scheme),
         vg.width(600),
