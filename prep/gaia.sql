@@ -10,7 +10,6 @@ FROM 'data/gaia/*.csv.gz';
 -- see https://astronomy.stackexchange.com/questions/53397/how-can-i-convert-my-sky-coordinate-system-ra-dec-into-galactic-coordinate-sy
 -- then apply equal earth projection to l, b to make galaxy map
 -- filter to valid values and desired parallax range
--- project to desired columns only
 CREATE VIEW projected AS
 WITH prep AS (
   SELECT
@@ -39,4 +38,4 @@ SELECT
 FROM prep;
 
 -- write result to new parquet file
-COPY projected TO 'data/gaia_projected.parquet' (FORMAT PARQUET);
+COPY projected TO 'data/gaia.parquet' (FORMAT PARQUET);
