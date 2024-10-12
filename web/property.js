@@ -1,7 +1,14 @@
-import { coordinator, vg } from './setup.js';
+import { coordinator, vg, watchRender, namedPlots } from './setup.js';
+import { run, createIndex, slideInterval1D, downloadJSON } from './experiment.js';
 
 export default async function(el) {
+  let experimentResolver;
+  const experimentPromise = new Promise(resolve => experimentResolver = resolve);
   const table = 'property';
+  const names = ['property price'];
+  const connector = coordinator.databaseConnector();
+  await connector.reset();
+  connector.visualization(table);
 
   // load data
   await coordinator.exec(`
@@ -9,10 +16,34 @@ export default async function(el) {
     FROM '${location.origin}/data/property.parquet'
   `);
 
+    // Add experiment to render watcher:
+    watchRender(1, async () => {
+      connector.stage('create');
+      const ival1D = names.map(x => namedPlots.get(x).interactors[0]);
+      // generate indices
+      for (let i = 0; i < ival1D.length; i++) {
+        const ival = ival1D[i];
+        await createIndex(ival, [0, 1], names[i]);
+      }
+  
+      // simulate brushing
+      connector.stage('update');
+      const n = namedPlots.size; // Not -1 because plot interacts with itself
+      const p = [0.1, 0.2, 0.3];
+      const tasks = ival1D.flatMap((ival, i) => slideInterval1D(p, ival, n, names[i]));
+      await run(tasks);
+      downloadJSON(
+        connector.dumpQueries(),
+        `property-${coordinator.dataCubeIndexer.enabled ? 'optimized' : 'not-optimized'}.json`
+      );
+      experimentResolver();
+    });
+
   const $brush = vg.Selection.intersect();
 
   const view = vg.vconcat(
     vg.plot(
+      vg.name(names[0]),
       vg.raster(vg.from(table), {
         x: 'date',
         y: 'price',
@@ -56,4 +87,5 @@ export default async function(el) {
   );
 
   el.replaceChildren(view);
+  await experimentPromise;
 }

@@ -1,4 +1,5 @@
-import { coordinator, vg } from './setup.js';
+import { coordinator, vg, watchRender, namedPlots } from './setup.js';
+import { run, createIndexSlider, slideIntervalSlider, downloadJSON } from './experiment.js';
 
 const airlineNames = new Map([
   ['KS', 'Peninsula'],
@@ -32,7 +33,13 @@ const airlineNames = new Map([
 ]);
 
 export default async function(el) {
+  let experimentResolver;
+  const experimentPromise = new Promise(resolve => experimentResolver = resolve);
   const table = 'airlines';
+  const interactorIds = ['slider_1'];
+  const connector = coordinator.databaseConnector();
+  await connector.reset();
+  connector.visualization(table);
 
   // load data
   await coordinator.exec(`
@@ -43,6 +50,33 @@ export default async function(el) {
     FROM '${location.origin}/data/flights.parquet'
     WHERE airline != 'KS' AND airline != '9K'
   `);
+
+    // Add experiment to render watcher:
+    watchRender(1, async () => {
+      connector.stage('create');
+      const sliders = Array.from(coordinator.clients).map(x => {
+        if (interactorIds.includes(x.id)) {
+          return x;
+        }
+      }).filter(x => x !== undefined);
+  
+      // generate indices
+      for (let i = 0; i < sliders.length; i++) {
+        const slider = sliders[i];
+        await createIndexSlider(slider, slider.max);
+      }
+  
+      // simulate brushing
+      connector.stage('update');
+      const n = namedPlots.size; // Not -1 because we are not interacting with a plot
+      const tasks = sliders.flatMap((slider, i) => slideIntervalSlider(slider, n));
+      await run(tasks);
+      downloadJSON(
+        connector.dumpQueries(),
+        `airlines-${coordinator.dataCubeIndexer.enabled ? 'optimized' : 'not-optimized'}.json`
+      );
+      experimentResolver();
+    });
 
   const $ci = vg.Param.value(0.95);
   const $filter = vg.Selection.single();
@@ -68,6 +102,7 @@ export default async function(el) {
       })
     ),
     vg.plot(
+      vg.name('delay'),
       vg.tickX([0], {
         stroke: '#ccc',
         strokeDasharray: '3 3'
@@ -109,4 +144,5 @@ export default async function(el) {
   );
 
   el.replaceChildren(view);
+  return experimentPromise;
 }

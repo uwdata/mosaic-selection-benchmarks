@@ -19,17 +19,22 @@
     </span>
 
     <span style="margin-right: 0.5em;">
-      <button id="load" style="margin-right: 0.5em;">Load</button>
+      <button id="run" style="margin-right: 0.5em;">Run</button>
+      <button id="stop">Stop</button>
     </span>
 
-    <span style="margin-right: 0.5em;"></span>
+    <span style="margin-right: 0.5em;">
       Optimize:
       <input id="opt" type="checkbox" checked />
+    </span>
+    <span style="margin-right: 0.5em;">
+      <button id="runAll">Run All</button>
     </span>
   </header>
   <div id="view"></div>
 <script type="module">
   import { coordinator, clear } from './setup.js';
+  import { stop } from './experiment.js';
   coordinator.logger(false);
 
   async function load(name) {
@@ -38,20 +43,36 @@
     if (name !== 'none') {
       console.log(`LOADING ${name}.js`);
       const benchmarks = (await import(`./${name}.js`)).default;
-      benchmarks(view);
+      await benchmarks(view);
     }
   }
 
   const view = document.querySelector('#view');
   const specMenu = document.querySelector('#spec');
 
-  const loadButton = document.querySelector('#load');
-  loadButton.addEventListener('click', () => load(specMenu.value, false));
+  const runButton = document.querySelector('#run');
+  const stopButton = document.querySelector('#stop');
+  runButton.addEventListener('click', () => load(specMenu.value, false));
 
   const optToggle = document.querySelector('#opt');
   optToggle.addEventListener('change', () => {
     coordinator.dataCubeIndexer.enabled = optToggle.checked;
   });
+
+  const runAllButton = document.querySelector('#runAll');
+  runAllButton.addEventListener('click', () => {
+    const specs = Array.from(specMenu.options).map(o => o.value).filter(v => v !== 'none');
+    let i = 0;
+    async function runNext() {
+      if (i < specs.length) {
+        await load(specs[i]);
+        i++;
+        await runNext();
+      }
+    }
+    runNext();
+  });
+  stopButton.addEventListener('click', stop);
 </script>
 </body>
 </html>

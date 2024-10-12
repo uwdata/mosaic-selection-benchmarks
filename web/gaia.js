@@ -1,12 +1,51 @@
-import { coordinator, vg } from './setup.js';
+import { coordinator, vg, watchRender, namedPlots } from './setup.js';
+import { run, createIndex, slideInterval1D, slideInterval2D, downloadJSON } from './experiment.js';
 
 export default async function(el) {
+  let experimentResolver;
+  const experimentPromise = new Promise(resolve => experimentResolver = resolve);
   const table = 'gaia';
+  const names1D = ['mag', 'par'];
+  const names2D = ['sky', 'hrd'];
+  const connector = coordinator.databaseConnector();
+  await connector.reset();
+  connector.visualization(table);
 
   await coordinator.exec(`
     CREATE TABLE IF NOT EXISTS gaia AS
     SELECT * FROM '${location.origin}/data/gaia.parquet'
   `);
+
+  // Add experiment to render watcher:
+  watchRender(4, async () => {
+    connector.stage('create');
+    const ival1D = names1D.map(x => namedPlots.get(x).interactors[0]);
+    const ival2D = names2D.map(x => namedPlots.get(x).interactors[0]);
+
+    // generate indices
+    for (let i = 0; i < ival1D.length; i++) {
+      const ival = ival1D[i];
+      await createIndex(ival, [0, 1], names1D[i]);
+    }
+    for (let i = 0; i < ival2D.length; i++) {
+      const ival = ival2D[i];
+      await createIndex(ival, [[0, 1], [0, 1]], names2D[i]);
+    }
+
+    // simulate brushing
+    connector.stage('update');
+    const n = namedPlots.size - 1;
+    const p = [0.1, 0.2, 0.3];
+    const tasks1d = ival1D.flatMap((ival, i) => slideInterval1D(p, ival, n, names1D[i]));
+    const tasks2d = ival2D.flatMap((ival, i) => slideInterval2D(p, ival, n, names2D[i], 2));
+    const tasks = tasks1d.concat(tasks2d);
+    await run(tasks);
+    downloadJSON(
+      connector.dumpQueries(),
+      `gaia-${coordinator.dataCubeIndexer.enabled ? 'optimized' : 'not-optimized'}.json`
+    );
+    experimentResolver();
+  });
 
   const $brush = vg.Selection.crossfilter();
   const bandwidth = 0;
@@ -17,7 +56,7 @@ export default async function(el) {
   const view = vg.hconcat(
     vg.vconcat(
       vg.plot(
-        vg.name('sky'),
+        vg.name(names2D[0]),
         vg.raster(vg.from(table, { filterBy: $brush }), {
           x: 'u',
           y: 'v',
@@ -39,7 +78,7 @@ export default async function(el) {
       ),
       vg.hconcat(
         vg.plot(
-          vg.name('mag'),
+          vg.name(names1D[0]),
           vg.rectY(vg.from(table, { filterBy: $brush }), {
             x: vg.bin('phot_g_mean_mag', { step: 1 }),
             y: vg.count(),
@@ -57,7 +96,7 @@ export default async function(el) {
           vg.marginLeft(45)
         ),
         vg.plot(
-          vg.name('par'),
+          vg.name(names1D[1]),
           vg.rectY(vg.from(table, { filterBy: $brush }), {
             x: vg.bin('parallax', { step: 1 }),
             y: vg.count(),
@@ -77,7 +116,7 @@ export default async function(el) {
     ),
     vg.hspace(30),
     vg.plot(
-      vg.name('hrd'),
+      vg.name(names2D[1]),
       vg.raster(vg.from(table, { filterBy: $brush }), {
         x: 'bp_rp',
         y: 'phot_g_mean_mag',
@@ -100,4 +139,5 @@ export default async function(el) {
   );
 
   el.replaceChildren(view);
+  return experimentPromise;
 }
