@@ -49,6 +49,7 @@ export default async function(el) {
       time
     FROM '${location.origin}/data/flights.parquet'
     WHERE airline != 'KS' AND airline != '9K'
+    ${coordinator.dataCubeIndexer.enabled ? '' : 'LIMIT 10000'}
   `);
 
     // Add experiment to render watcher:

@@ -14,6 +14,7 @@ export default async function(el) {
   await coordinator.exec(`
     CREATE TABLE IF NOT EXISTS ${table} AS SELECT *
     FROM '${location.origin}/data/property.parquet'
+    ${coordinator.dataCubeIndexer.enabled ? '' : 'LIMIT 10000'}
   `);
 
     // Add experiment to render watcher:

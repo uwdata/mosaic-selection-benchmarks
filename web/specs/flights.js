@@ -17,6 +17,7 @@ export default async function(el) {
       LEAST(distance, 3000)::FLOAT AS distance,
       time
     FROM '${location.origin}/data/flights.parquet'
+    ${coordinator.dataCubeIndexer.enabled ? '' : 'LIMIT 10000'}
   `);
 
 
