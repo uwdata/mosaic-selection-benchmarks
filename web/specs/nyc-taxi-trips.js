@@ -1,5 +1,5 @@
-import { coordinator, vg, watchRender, namedPlots } from './setup.js';
-import { run, createIndex, slideInterval1D, slideInterval2D, downloadJSON } from './experiment.js';
+import { coordinator, vg, watchRender, namedPlots } from '../setup.js';
+import { run, createIndex, slideInterval1D, slideInterval2D, downloadJSON } from '../experiment.js';
 
 export default async function(el) {
   let experimentResolver;

@@ -1,5 +1,5 @@
-import { coordinator, vg, watchRender, namedPlots } from './setup.js';
-import { run, createIndexSlider, slideIntervalSlider, downloadJSON } from './experiment.js';
+import { coordinator, vg, watchRender, namedPlots } from '../setup.js';
+import { run, createIndexSlider, slideIntervalSlider, downloadJSON } from '../experiment.js';
 
 const airlineNames = new Map([
   ['KS', 'Peninsula'],
