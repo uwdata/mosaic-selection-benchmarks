@@ -11,7 +11,7 @@ See the `tasks/` folder for examples.
 
 ## Running Instructions
 
-_Note: for review purposes, this repo includes sub-sampled datasets to keep the total file size down._
+_Note: for review purposes, this repo includes all example datasets as 100k row samples to keep the total file size down._
 
 ### Preliminaries
 
@@ -33,9 +33,9 @@ _For review purposes, this step can also be skipped. Benchmark results are in th
 - Download and prepare datasets as needed. The scripts in `prep` include download instructions and SQL queries for data prep. Prepared datasets must reside in the `data` folder.
 - Run `node bin/upsample.js` to create upsampled datasets (up to 1 billion rows).
 - Run benchmarks using the `bin/bench.js` script. For example:
-  - `npm bench flights node opt` - benchmark 'flights' example queries in standard DuckDB (loaded within node.js) with materialized view optimizations
-  - `npm bench airlines node std` - benchmark 'flights' example queries in DuckDB-WASM *without* materialized view optimizations
-  - `npm bench airlines wasm` - benchmark 'airlines' example queries in DuckDB-WASM with materialized view optimizations
+  - `npm run bench flights node opt` - benchmark 'flights' example queries in standard DuckDB (loaded within node.js) with materialized view optimizations
+  - `npm run bench airlines node std` - benchmark 'flights' example queries in DuckDB-WASM *without* materialized view optimizations
+  - `npm run bench airlines wasm` - benchmark 'airlines' example queries in DuckDB-WASM with materialized view optimizations
 
 ### Analyze Results
 
