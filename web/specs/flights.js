@@ -59,6 +59,7 @@ export default async function(el) {
       ),
       vg.intervalX({as: $brush}),
       vg.xDomain([-60, 190]),
+      vg.xLabel('Arrival Delay (min)'),
       vg.yTickFormat('s'),
       vg.width(600),
       vg.height(200)
@@ -77,6 +78,7 @@ export default async function(el) {
       ),
       vg.intervalX({as: $brush}),
       vg.xDomain([0, 24]),
+      vg.xLabel('Departure Time (hour)'),
       vg.yTickFormat('s'),
       vg.width(600),
       vg.height(200)
@@ -95,6 +97,7 @@ export default async function(el) {
       ),
       vg.intervalX({as: $brush}),
       vg.xDomain([0, 3000]),
+      vg.xLabel('Distance Flown (miles)'),
       vg.yTickFormat('s'),
       vg.width(600),
       vg.height(200)
