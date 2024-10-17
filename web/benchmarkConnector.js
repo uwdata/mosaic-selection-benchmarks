@@ -5,34 +5,24 @@ export function benchmarkConnector(connector = wasmConnector()) {
   let currentStage = 'init';
   let currentVisualization = 'none';
   let currentProps = {};
-  
+
   return {
     /**
-     * Query the underlying connector first with a EXPLAIN ANALYZE
-     * prefixed query which gives detailed information on runtime metrics then
-     * with the original query to get the result.
-     * 
-     * NOTE: This connector was designed to be used with DuckDB as the backing database so may not work 
-     * with other databases that don't have same output formate for EXPLAIN ANALYZE.
-     * NOTE: If using above functions to change output to JSON certain queries return an error instead
-     * of timing information which is why they are currently unsused.
-     * 
+     * Issue a query and also add it to the internal query log.
      * @param {object} query
-     * @param {'exec' | 'arrow' | 'json' | 'create-bundle' | 'load-bundle'} [query.type] The query type.
+     * @param {'exec' | 'arrow' | 'json'} [query.type] The query type.
      * @param {string} [query.sql] A SQL query string.
-     * @param {string[]} [query.queries] The queries used to create a bundle.
-     * @param {string} [query.name] The name of a bundle to create or load.
      * @returns the query result
      */
     async query(query) {
-        const queryObj = {
-            visualization: currentVisualization,
-            stage: currentStage,
-            query: query.sql,
-            ...currentProps
-        }
-        queries.push(queryObj);
-        return connector.query(query);
+      const queryObj = {
+        name: currentVisualization,
+        stage: currentStage,
+        query: query.sql,
+        ...currentProps
+      }
+      queries.push(queryObj);
+      return connector.query(query);
     },
     dumpQueries() {
       const ret = queries;
@@ -56,10 +46,12 @@ export function benchmarkConnector(connector = wasmConnector()) {
       currentVisualization = 'none';
       currentProps = {};
       queries = [];
-      const tables = await connector.query({ type: 'json', sql: "SHOW ALL TABLES"});
+      const tables = await connector.query({ type: 'json', sql: 'SHOW ALL TABLES' });
       for (const table of tables) {
-        await connector.query({ type: 'exec', sql: `DROP TABLE
-          ${table.schema ? `${table.schema}.${table.name}` : table.name}` });
+        await connector.query({
+          type: 'exec',
+          sql: `DROP TABLE ${table.schema ? `${table.schema}.${table.name}` : table.name}`
+        });
       }
     }
   };

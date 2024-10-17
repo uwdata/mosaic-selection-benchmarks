@@ -41,10 +41,9 @@ export default async function(el) {
     const tasks2d = ival2D.flatMap((ival, i) => slideInterval2D(p, ival, n, names2D[i], 2));
     const tasks = tasks1d.concat(tasks2d);
     await run(tasks);
-    downloadJSON(
-      connector.dumpQueries(),
-      `gaia-${coordinator.dataCubeIndexer.enabled ? 'optimized' : 'not-optimized'}.json`
-    );
+
+    const prefix = coordinator.dataCubeIndexer.enabled ? 'opt' : 'std';
+    downloadJSON(connector.dumpQueries(), `${prefix}-gaia.json`);
     experimentResolver();
   });
 

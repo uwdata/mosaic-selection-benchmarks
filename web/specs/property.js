@@ -26,17 +26,16 @@ export default async function(el) {
         const ival = ival1D[i];
         await createIndex(ival, [0, 1], names[i]);
       }
-  
+
       // simulate brushing
       connector.stage('update');
       const n = namedPlots.size; // Not -1 because plot interacts with itself
       const p = [0.1, 0.2, 0.3];
       const tasks = ival1D.flatMap((ival, i) => slideInterval1D(p, ival, n, names[i]));
       await run(tasks);
-      downloadJSON(
-        connector.dumpQueries(),
-        `property-${coordinator.dataCubeIndexer.enabled ? 'optimized' : 'not-optimized'}.json`
-      );
+
+      const prefix = coordinator.dataCubeIndexer.enabled ? 'opt' : 'std';
+      downloadJSON(connector.dumpQueries(), `${prefix}-property.json`);
       experimentResolver();
     });
 

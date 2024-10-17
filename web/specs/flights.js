@@ -37,10 +37,9 @@ export default async function(el) {
     const p = [0.1, 0.2, 0.3];
     const tasks = ival1D.flatMap((ival, i) => slideInterval1D(p, ival, n, names[i]));
     await run(tasks);
-    downloadJSON(
-      connector.dumpQueries(),
-      `flights-${coordinator.dataCubeIndexer.enabled ? 'optimized' : 'not-optimized'}.json`
-    );
+
+    const prefix = coordinator.dataCubeIndexer.enabled ? 'opt' : 'std';
+    downloadJSON(connector.dumpQueries(), `${prefix}-flights.json`);
     experimentResolver();
   });
 

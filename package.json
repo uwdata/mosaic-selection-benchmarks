@@ -3,7 +3,8 @@
   "name": "mosaic-selection-benchmarks",
   "type": "module",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "bench": "node bin/bench.js"
   },
   "dependencies": {
     "@uwdata/flechette": "^1.1.0",

@@ -13,8 +13,8 @@
         <option value="airlines">Airlines</option>
         <option value="flights">Flights</option>
         <option value="gaia">Gaia</option>
-        <option value="nyc-taxi-trips">NYC Taxi Trips</option>
-        <option value="property">Property</option>
+        <option value="property">U.K. Property</option>
+        <option value="taxis">NYC Taxi Trips</option>
       </select>
     </span>
 
@@ -52,7 +52,7 @@
 
   const runButton = document.querySelector('#run');
   const stopButton = document.querySelector('#stop');
-  runButton.addEventListener('click', () => load(specMenu.value, false));
+  runButton.addEventListener('click', () => load(specMenu.value));
 
   const optToggle = document.querySelector('#opt');
   optToggle.addEventListener('change', () => {

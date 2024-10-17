@@ -3,7 +3,6 @@ import { clauseInterval } from '@uwdata/mosaic-core';
 
 let abort = false;
 
-
 export async function run(tasks) {
   for (const task of tasks) {
     if (!abort) await task();
@@ -143,14 +142,20 @@ export function slideIntervalSlider(slider, renderCount, step = 0.1) {
   return tasks;
 }
 
-export function downloadJSON(results, name) {
-    const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = name;
-    a.click();
-    URL.revokeObjectURL(url);
+export function downloadJSON(data, name) {
+  // drop initial table load query
+  // strip extra data cube creation queries
+  const results = data.filter((d, i) => {
+    return i > 0 && !(d.stage === 'update' && d.query.startsWith('CREATE '));
+  });
+
+  const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 // TODO: add benchmarks using the following:

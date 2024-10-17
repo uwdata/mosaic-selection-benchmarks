@@ -60,22 +60,21 @@ export default async function(el) {
           return x;
         }
       }).filter(x => x !== undefined);
-  
+
       // generate indices
       for (let i = 0; i < sliders.length; i++) {
         const slider = sliders[i];
         await createIndexSlider(slider, slider.max);
       }
-  
+
       // simulate brushing
       connector.stage('update');
       const n = namedPlots.size; // Not -1 because we are not interacting with a plot
       const tasks = sliders.flatMap((slider, i) => slideIntervalSlider(slider, n));
       await run(tasks);
-      downloadJSON(
-        connector.dumpQueries(),
-        `airlines-${coordinator.dataCubeIndexer.enabled ? 'optimized' : 'not-optimized'}.json`
-      );
+
+      const prefix = coordinator.dataCubeIndexer.enabled ? 'opt' : 'std';
+      downloadJSON(connector.dumpQueries(), `${prefix}-airlines.json`);
       experimentResolver();
     });
 
@@ -140,6 +139,7 @@ export default async function(el) {
       vg.marginTop(5),
       vg.marginLeft(83),
       vg.marginRight(52),
+      vg.width(565),
       vg.height(400)
     )
   );

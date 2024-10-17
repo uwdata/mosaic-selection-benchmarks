@@ -5,7 +5,8 @@
 CREATE VIEW parse AS SELECT
   column01::INTEGER AS price,
   column02::DATE AS date,
-FROM 'data/pp-complete.csv';
+  random() AS r
+FROM 'data/pp-complete.csv' ORDER BY r;
 
 -- prepare data, map dates to years and fractions
 CREATE VIEW property AS SELECT

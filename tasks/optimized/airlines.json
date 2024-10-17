@@ -1,0 +1,2914 @@
+[
+  {
+    "visualization": "airlines",
+    "stage": "init",
+    "query": "DESCRIBE SELECT \"airline\" AS \"column\" FROM \"airlines\" AS \"source\""
+  },
+  {
+    "visualization": "airlines",
+    "stage": "init",
+    "query": "DESCRIBE SELECT COUNT(*)::INTEGER AS \"column\" FROM \"airlines\" AS \"source\" GROUP BY ALL"
+  },
+  {
+    "visualization": "airlines",
+    "stage": "init",
+    "query": "SELECT \"airline\", AVG(\"delay\") AS \"__avg__\", COUNT(\"delay\")::INTEGER AS \"__n__\", STDDEV(\"delay\") AS \"__sd__\" FROM \"airlines\" AS \"source\" WHERE (\"time\" BETWEEN 6 AND 24) GROUP BY \"airline\""
+  },
+  {
+    "visualization": "airlines",
+    "stage": "init",
+    "query": "SELECT COUNT(*)::INTEGER AS \"text\", \"airline\" FROM \"airlines\" AS \"source\" WHERE (\"time\" BETWEEN 6 AND 24) GROUP BY \"airline\""
+  },
+  {
+    "visualization": "airlines",
+    "stage": "create",
+    "query": "CREATE SCHEMA IF NOT EXISTS mosaic;\nCREATE TABLE IF NOT EXISTS mosaic.cube_406270d3 AS SELECT \"airline\", AVG(\"delay\") AS \"__avg__\", COUNT(\"delay\")::INTEGER AS \"__n__\", CEIL(10::DOUBLE * (\"time\" - 6::DOUBLE))::INTEGER AS \"active0\", COUNT(\"delay\") AS \"__count_delay__\", SUM((\"delay\" - (SELECT AVG(\"delay\") FROM \"airlines\")) ** 2) AS \"__rssq_delay__\", SUM(\"delay\" - (SELECT AVG(\"delay\") FROM \"airlines\")) AS \"__rsum_delay__\" FROM \"airlines\" AS \"source\" GROUP BY \"airline\", \"active0\"",
+    "activeView": "Depart By slider"
+  },
+  {
+    "visualization": "airlines",
+    "stage": "create",
+    "query": "CREATE SCHEMA IF NOT EXISTS mosaic;\nCREATE TABLE IF NOT EXISTS mosaic.cube_c820f136 AS SELECT COUNT(*)::INTEGER AS \"text\", \"airline\", CEIL(10::DOUBLE * (\"time\" - 6::DOUBLE))::INTEGER AS \"active0\" FROM \"airlines\" AS \"source\" GROUP BY \"airline\", \"active0\"",
+    "activeView": "Depart By slider"
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 0,
+    "activeView": "Depart By slider",
+    "selection": 6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 0,
+    "activeView": "Depart By slider",
+    "selection": 6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 1,
+    "activeView": "Depart By slider",
+    "selection": 6.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 1,
+    "activeView": "Depart By slider",
+    "selection": 6.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 2,
+    "activeView": "Depart By slider",
+    "selection": 6.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 2,
+    "activeView": "Depart By slider",
+    "selection": 6.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 3,
+    "activeView": "Depart By slider",
+    "selection": 6.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 3,
+    "activeView": "Depart By slider",
+    "selection": 6.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 4,
+    "activeView": "Depart By slider",
+    "selection": 6.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 4,
+    "activeView": "Depart By slider",
+    "selection": 6.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 5,
+    "activeView": "Depart By slider",
+    "selection": 6.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 5,
+    "activeView": "Depart By slider",
+    "selection": 6.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 6,
+    "activeView": "Depart By slider",
+    "selection": 6.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 6,
+    "activeView": "Depart By slider",
+    "selection": 6.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 7,
+    "activeView": "Depart By slider",
+    "selection": 6.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 7,
+    "activeView": "Depart By slider",
+    "selection": 6.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 8,
+    "activeView": "Depart By slider",
+    "selection": 6.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 8,
+    "activeView": "Depart By slider",
+    "selection": 6.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 9,
+    "activeView": "Depart By slider",
+    "selection": 6.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (6.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 9,
+    "activeView": "Depart By slider",
+    "selection": 6.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 10,
+    "activeView": "Depart By slider",
+    "selection": 7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 10,
+    "activeView": "Depart By slider",
+    "selection": 7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 11,
+    "activeView": "Depart By slider",
+    "selection": 7.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 11,
+    "activeView": "Depart By slider",
+    "selection": 7.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 12,
+    "activeView": "Depart By slider",
+    "selection": 7.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 12,
+    "activeView": "Depart By slider",
+    "selection": 7.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 13,
+    "activeView": "Depart By slider",
+    "selection": 7.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 13,
+    "activeView": "Depart By slider",
+    "selection": 7.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 14,
+    "activeView": "Depart By slider",
+    "selection": 7.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 14,
+    "activeView": "Depart By slider",
+    "selection": 7.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 15,
+    "activeView": "Depart By slider",
+    "selection": 7.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 15,
+    "activeView": "Depart By slider",
+    "selection": 7.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 16,
+    "activeView": "Depart By slider",
+    "selection": 7.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 16,
+    "activeView": "Depart By slider",
+    "selection": 7.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 17,
+    "activeView": "Depart By slider",
+    "selection": 7.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 17,
+    "activeView": "Depart By slider",
+    "selection": 7.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 18,
+    "activeView": "Depart By slider",
+    "selection": 7.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 18,
+    "activeView": "Depart By slider",
+    "selection": 7.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 19,
+    "activeView": "Depart By slider",
+    "selection": 7.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (7.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 19,
+    "activeView": "Depart By slider",
+    "selection": 7.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 20,
+    "activeView": "Depart By slider",
+    "selection": 8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 20,
+    "activeView": "Depart By slider",
+    "selection": 8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 21,
+    "activeView": "Depart By slider",
+    "selection": 8.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 21,
+    "activeView": "Depart By slider",
+    "selection": 8.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 22,
+    "activeView": "Depart By slider",
+    "selection": 8.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 22,
+    "activeView": "Depart By slider",
+    "selection": 8.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 23,
+    "activeView": "Depart By slider",
+    "selection": 8.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 23,
+    "activeView": "Depart By slider",
+    "selection": 8.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 24,
+    "activeView": "Depart By slider",
+    "selection": 8.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 24,
+    "activeView": "Depart By slider",
+    "selection": 8.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 25,
+    "activeView": "Depart By slider",
+    "selection": 8.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 25,
+    "activeView": "Depart By slider",
+    "selection": 8.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 26,
+    "activeView": "Depart By slider",
+    "selection": 8.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 26,
+    "activeView": "Depart By slider",
+    "selection": 8.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 27,
+    "activeView": "Depart By slider",
+    "selection": 8.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 27,
+    "activeView": "Depart By slider",
+    "selection": 8.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 28,
+    "activeView": "Depart By slider",
+    "selection": 8.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 28,
+    "activeView": "Depart By slider",
+    "selection": 8.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 29,
+    "activeView": "Depart By slider",
+    "selection": 8.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (8.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 29,
+    "activeView": "Depart By slider",
+    "selection": 8.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 30,
+    "activeView": "Depart By slider",
+    "selection": 9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 30,
+    "activeView": "Depart By slider",
+    "selection": 9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 31,
+    "activeView": "Depart By slider",
+    "selection": 9.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 31,
+    "activeView": "Depart By slider",
+    "selection": 9.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 32,
+    "activeView": "Depart By slider",
+    "selection": 9.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 32,
+    "activeView": "Depart By slider",
+    "selection": 9.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 33,
+    "activeView": "Depart By slider",
+    "selection": 9.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 33,
+    "activeView": "Depart By slider",
+    "selection": 9.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 34,
+    "activeView": "Depart By slider",
+    "selection": 9.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 34,
+    "activeView": "Depart By slider",
+    "selection": 9.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 35,
+    "activeView": "Depart By slider",
+    "selection": 9.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 35,
+    "activeView": "Depart By slider",
+    "selection": 9.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 36,
+    "activeView": "Depart By slider",
+    "selection": 9.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 36,
+    "activeView": "Depart By slider",
+    "selection": 9.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 37,
+    "activeView": "Depart By slider",
+    "selection": 9.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 37,
+    "activeView": "Depart By slider",
+    "selection": 9.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 38,
+    "activeView": "Depart By slider",
+    "selection": 9.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 38,
+    "activeView": "Depart By slider",
+    "selection": 9.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 39,
+    "activeView": "Depart By slider",
+    "selection": 9.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (9.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 39,
+    "activeView": "Depart By slider",
+    "selection": 9.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 40,
+    "activeView": "Depart By slider",
+    "selection": 10
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 40,
+    "activeView": "Depart By slider",
+    "selection": 10
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.100000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 41,
+    "activeView": "Depart By slider",
+    "selection": 10.100000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.100000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 41,
+    "activeView": "Depart By slider",
+    "selection": 10.100000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 42,
+    "activeView": "Depart By slider",
+    "selection": 10.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 42,
+    "activeView": "Depart By slider",
+    "selection": 10.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 43,
+    "activeView": "Depart By slider",
+    "selection": 10.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 43,
+    "activeView": "Depart By slider",
+    "selection": 10.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 44,
+    "activeView": "Depart By slider",
+    "selection": 10.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 44,
+    "activeView": "Depart By slider",
+    "selection": 10.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 45,
+    "activeView": "Depart By slider",
+    "selection": 10.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 45,
+    "activeView": "Depart By slider",
+    "selection": 10.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.600000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 46,
+    "activeView": "Depart By slider",
+    "selection": 10.600000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.600000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 46,
+    "activeView": "Depart By slider",
+    "selection": 10.600000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 47,
+    "activeView": "Depart By slider",
+    "selection": 10.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 47,
+    "activeView": "Depart By slider",
+    "selection": 10.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 48,
+    "activeView": "Depart By slider",
+    "selection": 10.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 48,
+    "activeView": "Depart By slider",
+    "selection": 10.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 49,
+    "activeView": "Depart By slider",
+    "selection": 10.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (10.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 49,
+    "activeView": "Depart By slider",
+    "selection": 10.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 50,
+    "activeView": "Depart By slider",
+    "selection": 11
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 50,
+    "activeView": "Depart By slider",
+    "selection": 11
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.100000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 51,
+    "activeView": "Depart By slider",
+    "selection": 11.100000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.100000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 51,
+    "activeView": "Depart By slider",
+    "selection": 11.100000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 52,
+    "activeView": "Depart By slider",
+    "selection": 11.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 52,
+    "activeView": "Depart By slider",
+    "selection": 11.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 53,
+    "activeView": "Depart By slider",
+    "selection": 11.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 53,
+    "activeView": "Depart By slider",
+    "selection": 11.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 54,
+    "activeView": "Depart By slider",
+    "selection": 11.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 54,
+    "activeView": "Depart By slider",
+    "selection": 11.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 55,
+    "activeView": "Depart By slider",
+    "selection": 11.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 55,
+    "activeView": "Depart By slider",
+    "selection": 11.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.600000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 56,
+    "activeView": "Depart By slider",
+    "selection": 11.600000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.600000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 56,
+    "activeView": "Depart By slider",
+    "selection": 11.600000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 57,
+    "activeView": "Depart By slider",
+    "selection": 11.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 57,
+    "activeView": "Depart By slider",
+    "selection": 11.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 58,
+    "activeView": "Depart By slider",
+    "selection": 11.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 58,
+    "activeView": "Depart By slider",
+    "selection": 11.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 59,
+    "activeView": "Depart By slider",
+    "selection": 11.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (11.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 59,
+    "activeView": "Depart By slider",
+    "selection": 11.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 60,
+    "activeView": "Depart By slider",
+    "selection": 12
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 60,
+    "activeView": "Depart By slider",
+    "selection": 12
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.100000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 61,
+    "activeView": "Depart By slider",
+    "selection": 12.100000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.100000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 61,
+    "activeView": "Depart By slider",
+    "selection": 12.100000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 62,
+    "activeView": "Depart By slider",
+    "selection": 12.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 62,
+    "activeView": "Depart By slider",
+    "selection": 12.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 63,
+    "activeView": "Depart By slider",
+    "selection": 12.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 63,
+    "activeView": "Depart By slider",
+    "selection": 12.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 64,
+    "activeView": "Depart By slider",
+    "selection": 12.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 64,
+    "activeView": "Depart By slider",
+    "selection": 12.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 65,
+    "activeView": "Depart By slider",
+    "selection": 12.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 65,
+    "activeView": "Depart By slider",
+    "selection": 12.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.600000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 66,
+    "activeView": "Depart By slider",
+    "selection": 12.600000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.600000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 66,
+    "activeView": "Depart By slider",
+    "selection": 12.600000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 67,
+    "activeView": "Depart By slider",
+    "selection": 12.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 67,
+    "activeView": "Depart By slider",
+    "selection": 12.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 68,
+    "activeView": "Depart By slider",
+    "selection": 12.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 68,
+    "activeView": "Depart By slider",
+    "selection": 12.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 69,
+    "activeView": "Depart By slider",
+    "selection": 12.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (12.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 69,
+    "activeView": "Depart By slider",
+    "selection": 12.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 70,
+    "activeView": "Depart By slider",
+    "selection": 13
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 70,
+    "activeView": "Depart By slider",
+    "selection": 13
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.100000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 71,
+    "activeView": "Depart By slider",
+    "selection": 13.100000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.100000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 71,
+    "activeView": "Depart By slider",
+    "selection": 13.100000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 72,
+    "activeView": "Depart By slider",
+    "selection": 13.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 72,
+    "activeView": "Depart By slider",
+    "selection": 13.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 73,
+    "activeView": "Depart By slider",
+    "selection": 13.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 73,
+    "activeView": "Depart By slider",
+    "selection": 13.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 74,
+    "activeView": "Depart By slider",
+    "selection": 13.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 74,
+    "activeView": "Depart By slider",
+    "selection": 13.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 75,
+    "activeView": "Depart By slider",
+    "selection": 13.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 75,
+    "activeView": "Depart By slider",
+    "selection": 13.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.600000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 76,
+    "activeView": "Depart By slider",
+    "selection": 13.600000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.600000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 76,
+    "activeView": "Depart By slider",
+    "selection": 13.600000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 77,
+    "activeView": "Depart By slider",
+    "selection": 13.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 77,
+    "activeView": "Depart By slider",
+    "selection": 13.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 78,
+    "activeView": "Depart By slider",
+    "selection": 13.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 78,
+    "activeView": "Depart By slider",
+    "selection": 13.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 79,
+    "activeView": "Depart By slider",
+    "selection": 13.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (13.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 79,
+    "activeView": "Depart By slider",
+    "selection": 13.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 80,
+    "activeView": "Depart By slider",
+    "selection": 14
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 80,
+    "activeView": "Depart By slider",
+    "selection": 14
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 81,
+    "activeView": "Depart By slider",
+    "selection": 14.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 81,
+    "activeView": "Depart By slider",
+    "selection": 14.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.200000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 82,
+    "activeView": "Depart By slider",
+    "selection": 14.200000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.200000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 82,
+    "activeView": "Depart By slider",
+    "selection": 14.200000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 83,
+    "activeView": "Depart By slider",
+    "selection": 14.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 83,
+    "activeView": "Depart By slider",
+    "selection": 14.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 84,
+    "activeView": "Depart By slider",
+    "selection": 14.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 84,
+    "activeView": "Depart By slider",
+    "selection": 14.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 85,
+    "activeView": "Depart By slider",
+    "selection": 14.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 85,
+    "activeView": "Depart By slider",
+    "selection": 14.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 86,
+    "activeView": "Depart By slider",
+    "selection": 14.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 86,
+    "activeView": "Depart By slider",
+    "selection": 14.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.700000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 87,
+    "activeView": "Depart By slider",
+    "selection": 14.700000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.700000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 87,
+    "activeView": "Depart By slider",
+    "selection": 14.700000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 88,
+    "activeView": "Depart By slider",
+    "selection": 14.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 88,
+    "activeView": "Depart By slider",
+    "selection": 14.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 89,
+    "activeView": "Depart By slider",
+    "selection": 14.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (14.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 89,
+    "activeView": "Depart By slider",
+    "selection": 14.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 90,
+    "activeView": "Depart By slider",
+    "selection": 15
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 90,
+    "activeView": "Depart By slider",
+    "selection": 15
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 91,
+    "activeView": "Depart By slider",
+    "selection": 15.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 91,
+    "activeView": "Depart By slider",
+    "selection": 15.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.200000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 92,
+    "activeView": "Depart By slider",
+    "selection": 15.200000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.200000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 92,
+    "activeView": "Depart By slider",
+    "selection": 15.200000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 93,
+    "activeView": "Depart By slider",
+    "selection": 15.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 93,
+    "activeView": "Depart By slider",
+    "selection": 15.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 94,
+    "activeView": "Depart By slider",
+    "selection": 15.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 94,
+    "activeView": "Depart By slider",
+    "selection": 15.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 95,
+    "activeView": "Depart By slider",
+    "selection": 15.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 95,
+    "activeView": "Depart By slider",
+    "selection": 15.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.600000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 96,
+    "activeView": "Depart By slider",
+    "selection": 15.600000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.600000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 96,
+    "activeView": "Depart By slider",
+    "selection": 15.600000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.700000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 97,
+    "activeView": "Depart By slider",
+    "selection": 15.700000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.700000000000001 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 97,
+    "activeView": "Depart By slider",
+    "selection": 15.700000000000001
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 98,
+    "activeView": "Depart By slider",
+    "selection": 15.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 98,
+    "activeView": "Depart By slider",
+    "selection": 15.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 99,
+    "activeView": "Depart By slider",
+    "selection": 15.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (15.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 99,
+    "activeView": "Depart By slider",
+    "selection": 15.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 100,
+    "activeView": "Depart By slider",
+    "selection": 16
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 100,
+    "activeView": "Depart By slider",
+    "selection": 16
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 101,
+    "activeView": "Depart By slider",
+    "selection": 16.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 101,
+    "activeView": "Depart By slider",
+    "selection": 16.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 102,
+    "activeView": "Depart By slider",
+    "selection": 16.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 102,
+    "activeView": "Depart By slider",
+    "selection": 16.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 103,
+    "activeView": "Depart By slider",
+    "selection": 16.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 103,
+    "activeView": "Depart By slider",
+    "selection": 16.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 104,
+    "activeView": "Depart By slider",
+    "selection": 16.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 104,
+    "activeView": "Depart By slider",
+    "selection": 16.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 105,
+    "activeView": "Depart By slider",
+    "selection": 16.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 105,
+    "activeView": "Depart By slider",
+    "selection": 16.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 106,
+    "activeView": "Depart By slider",
+    "selection": 16.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 106,
+    "activeView": "Depart By slider",
+    "selection": 16.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 107,
+    "activeView": "Depart By slider",
+    "selection": 16.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 107,
+    "activeView": "Depart By slider",
+    "selection": 16.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 108,
+    "activeView": "Depart By slider",
+    "selection": 16.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 108,
+    "activeView": "Depart By slider",
+    "selection": 16.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 109,
+    "activeView": "Depart By slider",
+    "selection": 16.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (16.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 109,
+    "activeView": "Depart By slider",
+    "selection": 16.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 110,
+    "activeView": "Depart By slider",
+    "selection": 17
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 110,
+    "activeView": "Depart By slider",
+    "selection": 17
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 111,
+    "activeView": "Depart By slider",
+    "selection": 17.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 111,
+    "activeView": "Depart By slider",
+    "selection": 17.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 112,
+    "activeView": "Depart By slider",
+    "selection": 17.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 112,
+    "activeView": "Depart By slider",
+    "selection": 17.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 113,
+    "activeView": "Depart By slider",
+    "selection": 17.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 113,
+    "activeView": "Depart By slider",
+    "selection": 17.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 114,
+    "activeView": "Depart By slider",
+    "selection": 17.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 114,
+    "activeView": "Depart By slider",
+    "selection": 17.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 115,
+    "activeView": "Depart By slider",
+    "selection": 17.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 115,
+    "activeView": "Depart By slider",
+    "selection": 17.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 116,
+    "activeView": "Depart By slider",
+    "selection": 17.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 116,
+    "activeView": "Depart By slider",
+    "selection": 17.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 117,
+    "activeView": "Depart By slider",
+    "selection": 17.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 117,
+    "activeView": "Depart By slider",
+    "selection": 17.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 118,
+    "activeView": "Depart By slider",
+    "selection": 17.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 118,
+    "activeView": "Depart By slider",
+    "selection": 17.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 119,
+    "activeView": "Depart By slider",
+    "selection": 17.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (17.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 119,
+    "activeView": "Depart By slider",
+    "selection": 17.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 120,
+    "activeView": "Depart By slider",
+    "selection": 18
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 120,
+    "activeView": "Depart By slider",
+    "selection": 18
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 121,
+    "activeView": "Depart By slider",
+    "selection": 18.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 121,
+    "activeView": "Depart By slider",
+    "selection": 18.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 122,
+    "activeView": "Depart By slider",
+    "selection": 18.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 122,
+    "activeView": "Depart By slider",
+    "selection": 18.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 123,
+    "activeView": "Depart By slider",
+    "selection": 18.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 123,
+    "activeView": "Depart By slider",
+    "selection": 18.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 124,
+    "activeView": "Depart By slider",
+    "selection": 18.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 124,
+    "activeView": "Depart By slider",
+    "selection": 18.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 125,
+    "activeView": "Depart By slider",
+    "selection": 18.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 125,
+    "activeView": "Depart By slider",
+    "selection": 18.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 126,
+    "activeView": "Depart By slider",
+    "selection": 18.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 126,
+    "activeView": "Depart By slider",
+    "selection": 18.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 127,
+    "activeView": "Depart By slider",
+    "selection": 18.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 127,
+    "activeView": "Depart By slider",
+    "selection": 18.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 128,
+    "activeView": "Depart By slider",
+    "selection": 18.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 128,
+    "activeView": "Depart By slider",
+    "selection": 18.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 129,
+    "activeView": "Depart By slider",
+    "selection": 18.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (18.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 129,
+    "activeView": "Depart By slider",
+    "selection": 18.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 130,
+    "activeView": "Depart By slider",
+    "selection": 19
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 130,
+    "activeView": "Depart By slider",
+    "selection": 19
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 131,
+    "activeView": "Depart By slider",
+    "selection": 19.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 131,
+    "activeView": "Depart By slider",
+    "selection": 19.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 132,
+    "activeView": "Depart By slider",
+    "selection": 19.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 132,
+    "activeView": "Depart By slider",
+    "selection": 19.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 133,
+    "activeView": "Depart By slider",
+    "selection": 19.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 133,
+    "activeView": "Depart By slider",
+    "selection": 19.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 134,
+    "activeView": "Depart By slider",
+    "selection": 19.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 134,
+    "activeView": "Depart By slider",
+    "selection": 19.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 135,
+    "activeView": "Depart By slider",
+    "selection": 19.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 135,
+    "activeView": "Depart By slider",
+    "selection": 19.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 136,
+    "activeView": "Depart By slider",
+    "selection": 19.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 136,
+    "activeView": "Depart By slider",
+    "selection": 19.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 137,
+    "activeView": "Depart By slider",
+    "selection": 19.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 137,
+    "activeView": "Depart By slider",
+    "selection": 19.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 138,
+    "activeView": "Depart By slider",
+    "selection": 19.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 138,
+    "activeView": "Depart By slider",
+    "selection": 19.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 139,
+    "activeView": "Depart By slider",
+    "selection": 19.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (19.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 139,
+    "activeView": "Depart By slider",
+    "selection": 19.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 140,
+    "activeView": "Depart By slider",
+    "selection": 20
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 140,
+    "activeView": "Depart By slider",
+    "selection": 20
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 141,
+    "activeView": "Depart By slider",
+    "selection": 20.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 141,
+    "activeView": "Depart By slider",
+    "selection": 20.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 142,
+    "activeView": "Depart By slider",
+    "selection": 20.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 142,
+    "activeView": "Depart By slider",
+    "selection": 20.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 143,
+    "activeView": "Depart By slider",
+    "selection": 20.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 143,
+    "activeView": "Depart By slider",
+    "selection": 20.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 144,
+    "activeView": "Depart By slider",
+    "selection": 20.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 144,
+    "activeView": "Depart By slider",
+    "selection": 20.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 145,
+    "activeView": "Depart By slider",
+    "selection": 20.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 145,
+    "activeView": "Depart By slider",
+    "selection": 20.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 146,
+    "activeView": "Depart By slider",
+    "selection": 20.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 146,
+    "activeView": "Depart By slider",
+    "selection": 20.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 147,
+    "activeView": "Depart By slider",
+    "selection": 20.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 147,
+    "activeView": "Depart By slider",
+    "selection": 20.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 148,
+    "activeView": "Depart By slider",
+    "selection": 20.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 148,
+    "activeView": "Depart By slider",
+    "selection": 20.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 149,
+    "activeView": "Depart By slider",
+    "selection": 20.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (20.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 149,
+    "activeView": "Depart By slider",
+    "selection": 20.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 150,
+    "activeView": "Depart By slider",
+    "selection": 21
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 150,
+    "activeView": "Depart By slider",
+    "selection": 21
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 151,
+    "activeView": "Depart By slider",
+    "selection": 21.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 151,
+    "activeView": "Depart By slider",
+    "selection": 21.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 152,
+    "activeView": "Depart By slider",
+    "selection": 21.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.200000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 152,
+    "activeView": "Depart By slider",
+    "selection": 21.200000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 153,
+    "activeView": "Depart By slider",
+    "selection": 21.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 153,
+    "activeView": "Depart By slider",
+    "selection": 21.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 154,
+    "activeView": "Depart By slider",
+    "selection": 21.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.4 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 154,
+    "activeView": "Depart By slider",
+    "selection": 21.4
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 155,
+    "activeView": "Depart By slider",
+    "selection": 21.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 155,
+    "activeView": "Depart By slider",
+    "selection": 21.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 156,
+    "activeView": "Depart By slider",
+    "selection": 21.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 156,
+    "activeView": "Depart By slider",
+    "selection": 21.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 157,
+    "activeView": "Depart By slider",
+    "selection": 21.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.700000000000003 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 157,
+    "activeView": "Depart By slider",
+    "selection": 21.700000000000003
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 158,
+    "activeView": "Depart By slider",
+    "selection": 21.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 158,
+    "activeView": "Depart By slider",
+    "selection": 21.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 159,
+    "activeView": "Depart By slider",
+    "selection": 21.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (21.9 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 159,
+    "activeView": "Depart By slider",
+    "selection": 21.9
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 160,
+    "activeView": "Depart By slider",
+    "selection": 22
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 160,
+    "activeView": "Depart By slider",
+    "selection": 22
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 161,
+    "activeView": "Depart By slider",
+    "selection": 22.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 161,
+    "activeView": "Depart By slider",
+    "selection": 22.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 162,
+    "activeView": "Depart By slider",
+    "selection": 22.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 162,
+    "activeView": "Depart By slider",
+    "selection": 22.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 163,
+    "activeView": "Depart By slider",
+    "selection": 22.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 163,
+    "activeView": "Depart By slider",
+    "selection": 22.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.400000000000002 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 164,
+    "activeView": "Depart By slider",
+    "selection": 22.400000000000002
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.400000000000002 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 164,
+    "activeView": "Depart By slider",
+    "selection": 22.400000000000002
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 165,
+    "activeView": "Depart By slider",
+    "selection": 22.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 165,
+    "activeView": "Depart By slider",
+    "selection": 22.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 166,
+    "activeView": "Depart By slider",
+    "selection": 22.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 166,
+    "activeView": "Depart By slider",
+    "selection": 22.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 167,
+    "activeView": "Depart By slider",
+    "selection": 22.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 167,
+    "activeView": "Depart By slider",
+    "selection": 22.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 168,
+    "activeView": "Depart By slider",
+    "selection": 22.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 168,
+    "activeView": "Depart By slider",
+    "selection": 22.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.900000000000002 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 169,
+    "activeView": "Depart By slider",
+    "selection": 22.900000000000002
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (22.900000000000002 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 169,
+    "activeView": "Depart By slider",
+    "selection": 22.900000000000002
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 170,
+    "activeView": "Depart By slider",
+    "selection": 23
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 170,
+    "activeView": "Depart By slider",
+    "selection": 23
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 171,
+    "activeView": "Depart By slider",
+    "selection": 23.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.1 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 171,
+    "activeView": "Depart By slider",
+    "selection": 23.1
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 172,
+    "activeView": "Depart By slider",
+    "selection": 23.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.2 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 172,
+    "activeView": "Depart By slider",
+    "selection": 23.2
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 173,
+    "activeView": "Depart By slider",
+    "selection": 23.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.3 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 173,
+    "activeView": "Depart By slider",
+    "selection": 23.3
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.400000000000002 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 174,
+    "activeView": "Depart By slider",
+    "selection": 23.400000000000002
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.400000000000002 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 174,
+    "activeView": "Depart By slider",
+    "selection": 23.400000000000002
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 175,
+    "activeView": "Depart By slider",
+    "selection": 23.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.5 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 175,
+    "activeView": "Depart By slider",
+    "selection": 23.5
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 176,
+    "activeView": "Depart By slider",
+    "selection": 23.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.6 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 176,
+    "activeView": "Depart By slider",
+    "selection": 23.6
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 177,
+    "activeView": "Depart By slider",
+    "selection": 23.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.7 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 177,
+    "activeView": "Depart By slider",
+    "selection": 23.7
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 178,
+    "activeView": "Depart By slider",
+    "selection": 23.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.8 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 178,
+    "activeView": "Depart By slider",
+    "selection": 23.8
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", (SUM(\"__avg__\" * __count_delay__) / SUM(__count_delay__)) AS \"__avg__\", SUM(\"__n__\")::DOUBLE AS \"__n__\", SQRT((SUM(__rssq_delay__) - (SUM(__rsum_delay__) ** 2 / SUM(__count_delay__))) / (SUM(__count_delay__) - 1)) AS \"__sd__\" FROM \"mosaic\".\"cube_406270d3\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.900000000000002 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 179,
+    "activeView": "Depart By slider",
+    "selection": 23.900000000000002
+  },
+  {
+    "visualization": "airlines",
+    "stage": "update",
+    "query": "SELECT \"airline\", SUM(\"text\")::DOUBLE AS \"text\" FROM \"mosaic\".\"cube_c820f136\" WHERE (\"active0\" BETWEEN CEIL(10::DOUBLE * (6 - 6::DOUBLE))::INTEGER AND CEIL(10::DOUBLE * (23.900000000000002 - 6::DOUBLE))::INTEGER) GROUP BY \"airline\"",
+    "updateId": 179,
+    "activeView": "Depart By slider",
+    "selection": 23.900000000000002
+  }
+]

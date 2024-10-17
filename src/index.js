@@ -1,1 +1,2 @@
-export { runTest } from './test.js';
+export { analyze } from './analyze.js';
+export { run } from './run.js';

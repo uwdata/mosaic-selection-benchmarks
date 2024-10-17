@@ -19,71 +19,116 @@ export async function benchmark({
     ? CONNECTORS[connector]()
     : connector;
   const data = [];
+  let taskid = 0;
 
   if (load) {
-    const sql = [load].flat().join('; ');
-    if (verbose) console.log('LOADING DATA', sql);
+    try {
+      const sql = [load].flat().join('; ');
+      if (verbose) console.log('LOADING DATA', sql);
 
-    const t0 = performance.now();
-    await db.query({ type: 'exec', sql });
-    const t1 = performance.now();
-    data.push({
-      ...metadata,
-      taskid: 0,
-      stage: 'load',
-      query: sql,
-      start: t0,
-      end: t1,
-      time: t1 - t0
-    });
+      const t0 = performance.now();
+      await db.query({ type: 'exec', sql });
+      const t1 = performance.now();
+      data.push({
+        ...metadata,
+        taskid,
+        activeView: 'none',
+        updateId: -1,
+        stage: 'load',
+        query: sql,
+        start: t0,
+        end: t1,
+        time: t1 - t0
+      });
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   }
 
   if (parallel) {
     if (verbose) console.log('RUNNING TASKS IN PARALLEL');
-    let curTaskId = -1;
+    let curKey = null;
     let taskQueue = [];
+    let counter = 0;
+    const decile = Math.floor(tasks.length / 10);
 
-    async function processQueue(id) {
+    async function processQueue() {
       const results = await Promise.allSettled(taskQueue);
       for (const result of results) {
         if (result.status === 'fulfilled') {
           data.push(result.value);
+          ++counter;
+          if (verbose && counter % decile === 0) {
+            console.log(`PROGRESS: ${counter} / ${tasks.length} (${(100 * counter / tasks.length).toFixed(1)}%)`);
+          }
         } else {
           console.error(result.reason);
+          return false;
         }
       }
       taskQueue = [];
-      curTaskId = id;
+      return true;
     }
 
     for (const task of tasks) {
       try {
-        const id = task.taskid;
+        const key = `${task.stage}-${task.activeView ?? 'none'}-${task.updateId ?? 'x'}`;
         const sql = task.query;
         const type = task.stage === 'create' ? 'exec' : 'arrow';
 
-        if (id !== curTaskId) {
-          await processQueue(id);
+        if (key !== curKey) {
+          const signal = await processQueue();
+          if (!signal) return null;
+          curKey = key;
+          ++taskid;
         }
 
         taskQueue.push(
           query(db, type, sql)
-            .then(result => ({ ...metadata, ...task, ...result }))
+            .then(result => ({
+              ...metadata,
+              taskid,
+              stage: task.stage,
+              query: task.query,
+              activeView: task.activeView ?? 'none',
+              updateId: task.updateId ?? -1,
+              ...result
+            }))
+            .catch(err => {
+              console.error(err);
+              console.error('TASK', task);
+            })
         );
       } catch (err) {
         console.error(err, task);
       }
     }
 
-    await processQueue(curTaskId);
+    await processQueue();
   } else {
     if (verbose) console.log('RUNNING TASKS SEQUENTIALLY');
+    let curKey = null;
     for (const task of tasks) {
       try {
+        const key = `${task.stage}-${task.activeView ?? 'none'}-${task.updateId ?? 'x'}`;
         const sql = task.query;
         const type = task.stage === 'create' ? 'exec' : 'arrow';
+
+        if (key !== curKey) {
+          curKey = key;
+          ++taskid;
+        }
         const result = await query(db, type, sql);
-        data.push({ ...metadata, ...task, ...result });
+        data.push({
+          ...metadata,
+          taskid,
+          stage: task.stage,
+          query: task.query,
+          activeView: task.activeView ?? 'none',
+          updateId: task.updateId ?? -1,
+          ...result
+        });
       } catch (err) {
         console.error(err, task);
       }
