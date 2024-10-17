@@ -34,12 +34,19 @@ export default async function(el) {
     vegaFusion: 'VegaFusion'
   };
 
-  function plot(name, title, threshold) {
+  const unoptimized = ['unopt', 'VegaPlus', 'vegaFusion']
+
+  function plot(name, title, threshold, minFps) {
     return vg.plot(
       vg.name(name),
       vg.frame(),
       vg.text(labels, { fx: 'fx', text: 'text', frameAnchor: 'top', dy: 5 }),
       vg.ruleY([threshold], { stroke: '#ccc', strokeDasharray: '3,3' }),
+      minFps ? [
+        vg.ruleY([1000 / minFps], { stroke: '#858585', strokeDasharray: '4,5' }),
+        vg.text([{ fx: 'taxis', text: `${minFps}fps` }], { fx: 'fx', text: 'text', frameAnchor: 'right', dx: 30, dy: 12, fill: '#858585' }),
+        vg.marginRight(30),
+      ] : [],
       vg.areaY(vg.from(name, { optimize: false }), {
         fx: 'name',
         x: 'size',
@@ -85,7 +92,7 @@ export default async function(el) {
   const view = vg.vconcat(
     plot('build', 'Materialized View Creation', 1000),
     vg.vspace(10),
-    plot('update', 'Update Queries', 100),
+    plot('update', 'Update Queries', 100, 30),
     vg.hconcat(
       vg.hspace(45),
       vg.colorLegend({ for: 'update' })
