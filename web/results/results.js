@@ -39,12 +39,15 @@ export default async function(el) {
   function plot(name, title, threshold, minFps) {
     return vg.plot(
       vg.name(name),
-      vg.frame(),
       vg.text(labels, { fx: 'fx', text: 'text', frameAnchor: 'top', dy: 5 }),
       vg.ruleY([threshold], { stroke: '#ccc', strokeDasharray: '3,3' }),
       minFps ? [
-        vg.ruleY([1000 / minFps], { stroke: '#858585', strokeDasharray: '4,5' }),
-        vg.text([{ fx: 'taxis', text: `${minFps}fps` }], { fx: 'fx', text: 'text', frameAnchor: 'right', dx: 30, dy: 12, fill: '#858585' }),
+        vg.ruleY([1000 / minFps], { stroke: '#999', strokeDasharray: '2,2' }),
+        vg.text([{ fx: 'taxis', text: `${minFps}fps`, y: 1000 / minFps }], {
+          fx: 'fx', text: 'text', y: 'y',
+          frameAnchor: 'right', lineAnchor: 'middle',
+          dx: 31, fill: '#999'
+        }),
         vg.marginRight(30),
       ] : [],
       vg.areaY(vg.from(name, { optimize: false }), {
@@ -54,7 +57,8 @@ export default async function(el) {
         y2: vg.quantile('time', 0.75),
         fill: 'condition',
         fillOpacity: 0.15,
-        curve: 'monotone-x'
+        curve: 'monotone-x',
+        clip: true
       }),
       vg.lineY(vg.from(name, { optimize: false }), {
         fx: 'name',
@@ -64,6 +68,7 @@ export default async function(el) {
         stroke: 'condition',
         curve: 'monotone-x'
       }),
+      vg.frame(),
       vg.fxDomain(labels.map(l => l.fx)),
       vg.fxLabel(title),
       vg.fxTickFormat(() => ''),
@@ -81,10 +86,11 @@ export default async function(el) {
       vg.yTickFormat(tickFormat),
       vg.colorDomain(colorDomain),
       vg.colorTickFormat(v => colorLabels[v]),
-      vg.width(900),
+      vg.width(910),
       vg.height(130),
       vg.marginTop(18),
       vg.marginLeft(45),
+      vg.marginRight(32),
       vg.marginBottom(20)
     );
   }
@@ -92,7 +98,7 @@ export default async function(el) {
   const view = vg.vconcat(
     plot('build', 'Materialized View Creation', 1000),
     vg.vspace(10),
-    plot('update', 'Update Queries', 100, 30),
+    plot('update', 'Update Queries', 100, 60),
     vg.hconcat(
       vg.hspace(45),
       vg.colorLegend({ for: 'update' })
