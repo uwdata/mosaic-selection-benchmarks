@@ -38,4 +38,4 @@ SELECT
 FROM prep;
 
 -- write result to new parquet file
-COPY projected TO 'data/gaia.parquet' (FORMAT PARQUET);
+COPY projected TO 'data/gaia-1b.parquet' (FORMAT PARQUET);

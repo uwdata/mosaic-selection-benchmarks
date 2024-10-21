@@ -14,7 +14,7 @@ export default async function(el) {
   // load data
   await coordinator.exec(`
     CREATE TABLE IF NOT EXISTS ${table} AS SELECT *
-    FROM '${location.origin}/data/nyc-taxi-trips.parquet'
+    FROM '${location.origin}/data/taxis.parquet'
     ${coordinator.dataCubeIndexer.enabled ? '' : 'LIMIT 1000'}
   `);
 

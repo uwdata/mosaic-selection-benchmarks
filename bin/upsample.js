@@ -52,13 +52,3 @@ const propertySample =
   FLOOR(price + (0.5 - random()) * price)::INTEGER AS price,
   (date + (0.5 * random()))::FLOAT AS date`;
 await upsample(size, 'property', propertyLoad, propertySample);
-
-const taxisLoad = `SELECT * FROM 'data/nyc-taxi-trips.parquet'`;
-const taxisSample =
-`SELECT
-  LEAST(23.99, time + random())::FLOAT as time,
-  (px + FLOOR((0.5 - random()) * 1000))::FLOAT as px,
-  (py + FLOOR((0.5 - random()) * 1000))::FLOAT as py,
-  (dx + FLOOR((0.5 - random()) * 1000))::FLOAT as dx,
-  (dy + FLOOR((0.5 - random()) * 1000))::FLOAT as dy`;
-await upsample(size, 'taxis', taxisLoad, taxisSample);
