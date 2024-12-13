@@ -1,0 +1,7 @@
+name,size,activeView,refs,rows,max,perc
+flights,100000,delay,delay|time,4214,12960,0.325154
+flights,100000,delay,delay|distance,4608,16200,0.284444
+flights,100000,time,delay|time,8210,13500,0.608148
+flights,100000,time,distance|time,8482,16200,0.523580
+flights,100000,distance,delay|distance,5266,13500,0.390074
+flights,100000,distance,distance|time,4226,12960,0.326080

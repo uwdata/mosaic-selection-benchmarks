@@ -1,0 +1,13 @@
+name,size,activeView,refs,rows,max,perc
+gaia,1000000000,mag,phot_g_mean_mag|u|v,4346042,11796060,0.368432
+gaia,1000000000,mag,parallax|phot_g_mean_mag,4485,5875,0.763404
+gaia,1000000000,mag,bp_rp|phot_g_mean_mag,50944,11628740,0.004381
+gaia,1000000000,par,parallax|u|v,4201572,11796060,0.356184
+gaia,1000000000,par,parallax|phot_g_mean_mag,4117,5170,0.796325
+gaia,1000000000,par,bp_rp|parallax|phot_g_mean_mag,1369027,11628740,0.117728
+gaia,1000000000,sky,phot_g_mean_mag|u|v,522309,1104312,0.472972
+gaia,1000000000,sky,parallax|u|v,680654,1254900,0.542397
+gaia,1000000000,sky,bp_rp|phot_g_mean_mag|u|v,103668553,2483898864,0.041736
+gaia,1000000000,hrd,bp_rp|phot_g_mean_mag|u|v,103705062,2483898864,0.041751
+gaia,1000000000,hrd,bp_rp|phot_g_mean_mag,37889,1088648,0.034804
+gaia,1000000000,hrd,bp_rp|parallax|phot_g_mean_mag,256686,1237100,0.207490

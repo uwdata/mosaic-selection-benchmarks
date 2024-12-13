@@ -1,0 +1,3 @@
+name,size,activeView,refs,rows,max,perc
+airlines,10000000,Depart By slider,airline|delay|time,5749,4680,1.228419
+airlines,10000000,Depart By slider,airline|time,5749,4680,1.228419

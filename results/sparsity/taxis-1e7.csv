@@ -1,0 +1,5 @@
+name,size,activeView,refs,rows,max,perc
+taxis,10000000,pickup time,px|py|time,3010040,28644000,0.105084
+taxis,10000000,pickup time,dx|dy|time,3554757,28644000,0.124101
+taxis,10000000,pickup location,dx|dy|px|py,6406632,2134440000,0.003002
+taxis,10000000,dropoff location,dx|dy|px|py,6684302,2134440000,0.003132
