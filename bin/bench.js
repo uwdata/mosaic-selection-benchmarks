@@ -33,7 +33,7 @@ for (const size of sizes) {
       .rollup({ avg: d => op.mean(d.time) })
       .object(0);
 
-    const outputFile = `results/${prefix}-1e${Math.log10(size)}.csv`;
+    const outputFile = `results/bench/${prefix}-1e${Math.log10(size)}.csv`;
     console.log(`WRITING RESULTS TO ${outputFile} (${time} ms total, ${avg.toFixed(1)} ms avg update)`);
     await writeFile(outputFile, results.toCSV());
   } catch (err) {
