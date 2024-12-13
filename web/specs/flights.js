@@ -17,7 +17,7 @@ export default async function(el) {
       LEAST(distance, 3000)::FLOAT AS distance,
       time
     FROM '${location.origin}/data/flights.parquet'
-    ${coordinator.dataCubeIndexer.enabled ? '' : 'LIMIT 10000'}
+    ${coordinator.preaggregator.enabled ? '' : 'LIMIT 10000'}
   `);
 
 
@@ -38,7 +38,7 @@ export default async function(el) {
     const tasks = ival1D.flatMap((ival, i) => slideInterval1D(p, ival, n, names[i]));
     await run(tasks);
 
-    const prefix = coordinator.dataCubeIndexer.enabled ? 'opt' : 'std';
+    const prefix = coordinator.preaggregator.enabled ? 'opt' : 'std';
     downloadJSON(connector.dumpQueries(), `${prefix}-flights.json`);
     experimentResolver();
   });

@@ -14,7 +14,7 @@ export default async function(el) {
   await coordinator.exec(`
     CREATE TABLE IF NOT EXISTS gaia AS
     SELECT * FROM '${location.origin}/data/gaia.parquet'
-    ${coordinator.dataCubeIndexer.enabled ? '' : 'LIMIT 10000'}
+    ${coordinator.preaggregator.enabled ? '' : 'LIMIT 10000'}
   `);
 
   // Add experiment to render watcher:
@@ -42,7 +42,7 @@ export default async function(el) {
     const tasks = tasks1d.concat(tasks2d);
     await run(tasks);
 
-    const prefix = coordinator.dataCubeIndexer.enabled ? 'opt' : 'std';
+    const prefix = coordinator.preaggregator.enabled ? 'opt' : 'std';
     downloadJSON(connector.dumpQueries(), `${prefix}-gaia.json`);
     experimentResolver();
   });

@@ -49,7 +49,7 @@ export default async function(el) {
       time
     FROM '${location.origin}/data/flights.parquet'
     WHERE airline != 'KS' AND airline != '9K'
-    ${coordinator.dataCubeIndexer.enabled ? '' : 'LIMIT 10000'}
+    ${coordinator.preaggregator.enabled ? '' : 'LIMIT 10000'}
   `);
 
     // Add experiment to render watcher:
@@ -73,7 +73,7 @@ export default async function(el) {
       const tasks = sliders.flatMap((slider, i) => slideIntervalSlider(slider, n));
       await run(tasks);
 
-      const prefix = coordinator.dataCubeIndexer.enabled ? 'opt' : 'std';
+      const prefix = coordinator.preaggregator.enabled ? 'opt' : 'std';
       downloadJSON(connector.dumpQueries(), `${prefix}-airlines.json`);
       experimentResolver();
     });

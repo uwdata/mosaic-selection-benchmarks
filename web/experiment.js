@@ -23,7 +23,7 @@ export async function createIndex(interval, value, name) {
 
   let promises = [];
   for (const client of clients) {
-    const info = coordinator.dataCubeIndexer.index(client, selection, active);
+    const info = coordinator.preaggregator.request(client, selection, active);
     if (info) promises.push(info.result); // if an index is getting created wait for it
   }
   await Promise.all(promises);
@@ -149,7 +149,10 @@ export function downloadJSON(data, name) {
     return i > 0 && !(d.stage === 'update' && d.query.startsWith('CREATE '));
   });
 
-  const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+  const blob = new Blob(
+    [JSON.stringify(results, null, 2)],
+    { type: 'application/json' }
+  );
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

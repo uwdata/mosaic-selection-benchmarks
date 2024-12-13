@@ -56,12 +56,14 @@
 
   const optToggle = document.querySelector('#opt');
   optToggle.addEventListener('change', () => {
-    coordinator.dataCubeIndexer.enabled = optToggle.checked;
+    coordinator.preaggregator.enabled = optToggle.checked;
   });
 
   const runAllButton = document.querySelector('#runAll');
   runAllButton.addEventListener('click', () => {
-    const specs = Array.from(specMenu.options).map(o => o.value).filter(v => v !== 'none');
+    const specs = Array.from(specMenu.options)
+      .map(o => o.value)
+      .filter(v => v !== 'none');
     let i = 0;
     async function runNext() {
       if (i < specs.length) {

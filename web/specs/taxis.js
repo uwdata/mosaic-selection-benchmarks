@@ -15,7 +15,7 @@ export default async function(el) {
   await coordinator.exec(`
     CREATE TABLE IF NOT EXISTS ${table} AS SELECT *
     FROM '${location.origin}/data/taxis.parquet'
-    ${coordinator.dataCubeIndexer.enabled ? '' : 'LIMIT 1000'}
+    ${coordinator.preaggregator.enabled ? '' : 'LIMIT 1000'}
   `);
 
   // Add experiment to render watcher:
@@ -44,7 +44,7 @@ export default async function(el) {
     const tasks = tasks1d.concat(tasks2d);
     await run(tasks);
 
-    const prefix = coordinator.dataCubeIndexer.enabled ? 'opt' : 'std';
+    const prefix = coordinator.preaggregator.enabled ? 'opt' : 'std';
     downloadJSON(connector.dumpQueries(), `${prefix}-taxis.json`);
     experimentResolver();
   });
