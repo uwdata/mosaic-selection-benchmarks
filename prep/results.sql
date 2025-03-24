@@ -1,3 +1,6 @@
+-- combines benchmark output files into single tables
+
+-- combine data for preaggregation optimization benchmark
 CREATE TABLE std AS
   SELECT 'unopt' AS condition, *
   FROM 'results/bench/*-node-std-1*.csv';
@@ -21,6 +24,7 @@ CREATE VIEW combined AS
 
 COPY combined TO 'results/results.parquet' (FORMAT PARQUET);
 
+-- combine data for panning (sort / prefetch) benchmark
 CREATE TABLE tilepan AS
  SELECT
    name,

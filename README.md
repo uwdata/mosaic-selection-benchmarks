@@ -2,7 +2,9 @@
 
 Query performance benchmarks for Mosaic selections.
 
-Loads DuckDB either in-process or via WASM, issues benchmark task queries against the database, and records the results.
+This repository is intended to accompany the research paper "Mosaic Selections: Managing and Optimizing User Selections for Scalable Data Visualization Systems".
+
+The benchmarks load DuckDB either in-process or via WASM, issues benchmark task queries against the database, and records the results.
 
 Source data files to load should be placed in `data/`.
 
@@ -11,7 +13,7 @@ See the `tasks/` folder for examples.
 
 ## Running Instructions
 
-_Note: for review purposes, this repo includes all example datasets as 100k row samples to keep the total file size down._
+_Note: for review purposes, this repo includes example datasets as 100k row samples to keep the total file size down. See the files in the prep/ folder for instructions to retrieve full datasets._
 
 ### Preliminaries
 
