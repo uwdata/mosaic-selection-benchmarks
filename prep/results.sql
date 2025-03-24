@@ -20,3 +20,16 @@ CREATE VIEW combined AS
   SELECT * FROM external;
 
 COPY combined TO 'results/results.parquet' (FORMAT PARQUET);
+
+CREATE TABLE tilepan AS
+ SELECT
+   name,
+   sorted,
+   CASE
+     WHEN tiled AND prefetch THEN 'Prefetch Tiles'
+     WHEN tiled THEN 'Tiles'
+     ELSE 'Query' END AS condition,
+   time
+ FROM 'results/tile-pan/*.json';
+
+COPY tilepan TO 'results/tile-pan.parquet' (FORMAT PARQUET);
